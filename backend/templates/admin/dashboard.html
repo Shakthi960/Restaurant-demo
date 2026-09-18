@@ -1,0 +1,255 @@
+{% extends 'admin/base.html' %}
+{% block admin_title %}Dashboard{% endblock %}
+
+{% block admin_content %}
+<div class="admin-container">
+
+  <!-- STATS -->
+  <div class="admin-stats">
+    <div class="admin-stat">
+      <span class="admin-stat-value">{{ pending_reservations }}</span>
+      <span class="admin-stat-label">Pending Reservations</span>
+    </div>
+    <div class="admin-stat">
+      <span class="admin-stat-value">{{ pending_reviews }}</span>
+      <span class="admin-stat-label">Reviews Awaiting Moderation</span>
+    </div>
+    <div class="admin-stat">
+      <span class="admin-stat-value">{{ new_contacts }}</span>
+      <span class="admin-stat-label">Contact Messages</span>
+    </div>
+    <div class="admin-stat">
+      <span class="admin-stat-value">{{ reservations|length }}</span>
+      <span class="admin-stat-label">Active Bookings</span>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <section class="admin-section admin-charts">
+    <h2 class="admin-section-title">Bookings at a Glance</h2>
+
+    <div class="admin-chart-grid">
+      <div class="admin-chart admin-chart--status">
+        <h3 class="admin-chart-title">By Status</h3>
+        {% for s in stats.status %}
+        <div class="admin-bar-row">
+          <span class="admin-bar-label">{{ s.status }}</span>
+          <span class="admin-bar-track"><span class="admin-bar admin-bar--{{ s.status }}" style="width: {{ (s.count / (reservations|length if reservations|length else 1)) * 100 }}%"></span></span>
+          <span class="admin-bar-count">{{ s.count }}</span>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="admin-chart">
+        <h3 class="admin-chart-title">Bookings This Week</h3>
+        <div class="admin-week">
+          {% for d in stats.week %}
+          <div class="admin-week-col" title="{{ d.date }} · {{ d.count }} booking(s)">
+            <span class="admin-week-val">{{ d.count }}</span>
+            <span class="admin-bar admin-bar--week" style="height: {{ (d.count / stats.max_day) * 100 if stats.max_day else 0 }}%"></span>
+            <span class="admin-week-label">{{ d.label }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-chart admin-chart--cities">
+      <h3 class="admin-chart-title">By City</h3>
+      {% for c in stats.cities %}
+      <div class="admin-bar-row">
+        <span class="admin-bar-label">{{ c.city }}</span>
+        <span class="admin-bar-track"><span class="admin-bar admin-bar--city" style="width: {{ (c.count / stats.max_city) * 100 if stats.max_city else 0 }}%"></span></span>
+        <span class="admin-bar-count">{{ c.count }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- RESERVATIONS -->
+  <section class="admin-section">
+    <h2 class="admin-section-title">Reservations</h2>
+
+    {% if reservations %}
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Submitted</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Guests</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in reservations %}
+          <tr class="admin-row">
+            <td class="admin-cell-muted">{{ r.created_at[:10] }}</td>
+            <td><strong>{{ r.name }}</strong></td>
+            <td><a href="tel:{{ r.phone }}">{{ r.phone }}</a></td>
+            <td>{{ r.city }}</td>
+            <td>{{ r.reservation_date }}</td>
+            <td>{{ r.reservation_time }}</td>
+            <td>{{ r.guests }}</td>
+            <td>
+              <span class="admin-badge admin-badge--{{ r.status }}">{{ r.status }}</span>
+            </td>
+            <td class="admin-actions">
+              {% if r.status == 'pending' %}
+              <form method="post" action="/admin/reservations/{{ r.id }}/confirm" class="admin-action-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="admin-btn admin-btn--sm admin-btn--success">Confirm</button>
+              </form>
+              <form method="post" action="/admin/reservations/{{ r.id }}/cancel" class="admin-action-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger">Cancel</button>
+              </form>
+              {% else %}
+              <span class="admin-cell-muted">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="admin-empty">No reservations yet.</p>
+    {% endif %}
+  </section>
+
+  <!-- BOOKING HISTORY -->
+  <section class="admin-section">
+    <h2 class="admin-section-title">Booking History</h2>
+    <p class="admin-hint">Past-dated bookings move here automatically once their date passes.</p>
+
+    {% if history %}
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Archived</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Guests</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for h in history %}
+          <tr class="admin-row">
+            <td class="admin-cell-muted">{{ h.archived_on }}</td>
+            <td><strong>{{ h.name }}</strong></td>
+            <td><a href="tel:{{ h.phone }}">{{ h.phone }}</a></td>
+            <td>{{ h.city }}</td>
+            <td>{{ h.reservation_date }}</td>
+            <td>{{ h.reservation_time }}</td>
+            <td>{{ h.guests }}</td>
+            <td>
+              <span class="admin-badge admin-badge--{{ h.status }}">{{ h.status }}</span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="admin-empty">No archived bookings yet.</p>
+    {% endif %}
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="admin-section">
+    <h2 class="admin-section-title">Guest Reviews</h2>
+
+    {% if reviews %}
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Author</th>
+            <th>City</th>
+            <th>Rating</th>
+            <th>Review</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in reviews %}
+          <tr class="admin-row">
+            <td><strong>{{ r.author }}</strong></td>
+            <td>{{ r.city or '—' }}</td>
+            <td class="admin-stars">{% for _ in range(r.rating) %}★{% endfor %}</td>
+            <td class="admin-cell-review">{{ r.review[:200] }}{% if r.review|length > 200 %}…{% endif %}</td>
+            <td>
+              <span class="admin-badge admin-badge--{{ 'approved' if r.is_approved else 'pending' }}">
+                {{ 'approved' if r.is_approved else 'pending' }}
+              </span>
+            </td>
+            <td class="admin-actions">
+              {% if not r.is_approved %}
+              <form method="post" action="/admin/reviews/{{ r.id }}/approve" class="admin-action-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="admin-btn admin-btn--sm admin-btn--success">Approve</button>
+              </form>
+              {% endif %}
+              <form method="post" action="/admin/reviews/{{ r.id }}/delete" class="admin-action-form" onsubmit="return confirm('Delete this review?')">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="admin-btn admin-btn--sm admin-btn--danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="admin-empty">No reviews yet.</p>
+    {% endif %}
+  </section>
+
+  <!-- CONTACT MESSAGES -->
+  <section class="admin-section">
+    <h2 class="admin-section-title">Contact Messages</h2>
+
+    {% if contacts %}
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in contacts %}
+          <tr class="admin-row">
+            <td class="admin-cell-muted">{{ c.created_at[:10] }}</td>
+            <td><strong>{{ c.name }}</strong></td>
+            <td><a href="mailto:{{ c.email }}">{{ c.email }}</a></td>
+            <td>{{ c.phone or '—' }}</td>
+            <td class="admin-cell-review">{{ c.message[:250] }}{% if c.message|length > 250 %}…{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="admin-empty">No contact messages yet.</p>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

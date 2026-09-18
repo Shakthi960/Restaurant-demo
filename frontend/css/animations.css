@@ -1,0 +1,121 @@
+/* ==========================================================================
+   GALAXY RESTAURANTS — Animations
+   Subtle, premium, fast. Respects prefers-reduced-motion.
+   ========================================================================== */
+
+/* ---------- Keyframes ---------- */
+@keyframes scroll-pulse {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  45%  { transform: scaleY(1); transform-origin: top; }
+  55%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes ornament-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ---------- Brand splash ---------- */
+@keyframes splash-logo-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes splash-logo-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(1.4); }
+}
+
+@keyframes splash-tagline-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splash-tagline-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes splash-hold {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+
+/* ---------- Hero entrance (staggered) ---------- */
+.animate-hero {
+  opacity: 0;
+}
+
+.hero.is-loaded .animate-hero {
+  animation: fade-up 0.8s var(--ease-out) forwards;
+}
+
+.hero.is-loaded .delay-1 { animation-delay: 0.15s; }
+.hero.is-loaded .delay-2 { animation-delay: 0.3s; }
+.hero.is-loaded .delay-3 { animation-delay: 0.45s; }
+.hero.is-loaded .delay-4 { animation-delay: 0.6s; }
+
+.hero.is-loaded .hero-overlay {
+  animation: fade-in 1.2s ease forwards;
+}
+
+.hero.is-loaded .hero-ornament {
+  animation: fade-in 1.6s var(--ease-out) 0.7s forwards;
+  opacity: 0;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s var(--ease-out),
+              transform 0.8s var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ---------- Staggered dish / gallery cards ---------- */
+.dish-card:nth-child(2) { transition-delay: 0.08s; }
+.dish-card:nth-child(3) { transition-delay: 0.16s; }
+.dish-card:nth-child(4) { transition-delay: 0.08s; }
+.dish-card:nth-child(5) { transition-delay: 0.16s; }
+.dish-card:nth-child(6) { transition-delay: 0.24s; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.001s !important;
+    transition-delay: 0s !important;
+  }
+
+  .animate-hero,
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

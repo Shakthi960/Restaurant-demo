@@ -1,0 +1,19 @@
+{% extends 'admin/base.html' %}
+{% block admin_title %}Log in{% endblock %}
+
+{% block admin_content %}
+<div class="admin-login-card">
+  <h1 class="admin-login-title">Galaxy Admin</h1>
+  <p class="admin-login-sub">Enter the staff password to continue.</p>
+
+  {% if error %}
+  <div class="admin-flash admin-flash--error">{{ error }}</div>
+  {% endif %}
+
+  <form method="post" action="/admin/login" class="admin-login-form">
+    <label for="password" class="admin-form-label">Password</label>
+    <input type="password" id="password" name="password" class="admin-input" required autofocus autocomplete="current-password">
+    <button type="submit" class="admin-btn admin-btn--primary admin-btn--full">Log in</button>
+  </form>
+</div>
+{% endblock %}

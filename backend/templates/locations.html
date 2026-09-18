@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Locations | Galaxy Restaurants{% endblock %}
+
+{% block content %}
+
+    <!-- ========== PAGE HERO ========== -->
+    <section class="page-hero" id="locations-hero">
+      <div class="container page-hero-content">
+        <p class="page-crumb"><a href="/">Home</a> <span aria-hidden="true">·</span> Locations</p>
+        <p class="eyebrow eyebrow-light">Six Cities · One Home</p>
+        <h1 class="section-title">Find Galaxy Near You</h1>
+        <p class="section-subtitle">Every outlet carries the same warm, traditional welcome — bringing India's flavours closer to you.</p>
+      </div>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== LOCATIONS ========== -->
+    <section class="section locations-section locations-page-section" id="locations">
+      <div class="container">
+
+        <div class="locations-grid">
+          {% for loc in locations %}
+          <div class="location-card reveal">
+            <div class="location-head">
+              <span class="location-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#A92722" stroke-width="1.2">
+                  <path d="M13 25C5 14 2 9 2 5.5A6.5 6.5 0 0 1 24 5.5C24 9 21 14 13 25Z"/>
+                  <circle cx="13" cy="5" r="2.4"/>
+                </svg>
+              </span>
+              <h3 class="location-city">{{ loc.city }}</h3>
+            </div>
+            <address class="location-address">{{ loc.address|safe }}</address>
+            <p class="location-hours"><strong>Open Daily</strong> · {{ loc.hours }}</p>
+            {% if loc.phone %}<p class="location-phone"><a href="tel:{{ loc.phone }}">{{ loc.phone }}</a></p>{% endif %}
+            <a href="/reservations" class="btn btn-link">Reserve a Table</a>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="locations-cta reveal">
+          <a href="/reservations" class="btn btn-primary btn-lg">Book a Table</a>
+        </div>
+
+      </div>
+    </section>
+
+{% endblock %}

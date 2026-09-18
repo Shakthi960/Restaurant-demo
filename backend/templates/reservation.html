@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Reservations | Galaxy Restaurants{% endblock %}
+
+{% block content %}
+
+    <!-- ========== PAGE HERO ========== -->
+    <section class="page-hero" id="reservations-hero">
+      <div class="container page-hero-content">
+        <p class="page-crumb"><a href="/">Home</a> <span aria-hidden="true">·</span> Reservations</p>
+        <p class="eyebrow eyebrow-light">Reservations</p>
+        <h1 class="section-title">Your Table Awaits</h1>
+        <p class="section-subtitle">Dine. Celebrate. Create memories. Reserve a table at any of our six homes.</p>
+      </div>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== RESERVATION ========== -->
+    <section class="section reservation-section reservation-page" id="reservation">
+      <div class="container reservation-container">
+        <div class="reservation-head reveal">
+          <p class="eyebrow">Reserve Online</p>
+          <h2 class="section-title">Reservation Details</h2>
+          <p class="section-subtitle">We hold each table for 15 minutes past the reserved time.</p>
+        </div>
+
+        <form class="reservation-form reveal" id="reservationForm" novalidate>
+          <div class="form-field">
+            <label for="res-name">Full Name</label>
+            <input type="text" id="res-name" name="full_name" placeholder="Your name" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="res-phone">Phone Number</label>
+            <input type="tel" id="res-phone" name="phone" placeholder="+91 90000 00000" autocomplete="tel" required>
+          </div>
+
+          <div class="form-field">
+            <label for="res-location">Select Location</label>
+            <select id="res-location" name="location" required>
+              <option value="" selected disabled>Choose a city</option>
+              {% for loc in locations %}
+              <option value="{{ loc.slug }}">{{ loc.city }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="res-guests">Number of Guests</label>
+            <select id="res-guests" name="guests" required>
+              <option value="" selected disabled>Guests</option>
+              <option value="1">1 Guest</option>
+              <option value="2">2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+              <option value="5">5 Guests</option>
+              <option value="6">6 Guests</option>
+              <option value="7">7 Guests</option>
+              <option value="8">8 Guests</option>
+              <option value="9">9 Guests</option>
+              <option value="10">10 Guests</option>
+              <option value="11">11 Guests</option>
+              <option value="12">12 Guests</option>
+              <option value="13">13 Guests</option>
+              <option value="14">14 Guests</option>
+              <option value="15">15 Guests</option>
+              <option value="16">16 Guests</option>
+              <option value="17">17 Guests</option>
+              <option value="18">18 Guests</option>
+              <option value="19">19 Guests</option>
+              <option value="20">20+ Guests</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="res-date">Select Date</label>
+            <input type="date" id="res-date" name="date" required>
+          </div>
+
+          <div class="form-field">
+            <label for="res-time">Select Time</label>
+            <select id="res-time" name="time" required>
+              <option value="" selected disabled>Choose a time</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="12:30">12:30 PM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="13:30">1:30 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="19:00">7:00 PM</option>
+              <option value="19:30">7:30 PM</option>
+              <option value="20:00">8:00 PM</option>
+              <option value="20:30">8:30 PM</option>
+              <option value="21:00">9:00 PM</option>
+              <option value="21:30">9:30 PM</option>
+              <option value="22:00">10:00 PM</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Reserve a Table</button>
+            <p class="form-hint" id="formStatus" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <div class="reservation-contact-row reveal">
+          <div>
+            <span class="contact-label">Reservations</span>
+            <a href="tel:+916383149466">+91 63831 49466</a>
+          </div>
+          <div>
+            <span class="contact-label">Email</span>
+            <a href="mailto:care@galaxyrestaurants.in">care@galaxyrestaurants.in</a>
+          </div>
+          <div>
+            <span class="contact-label">Walk-ins</span>
+            <span>Welcome daily from noon</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+{% endblock %}

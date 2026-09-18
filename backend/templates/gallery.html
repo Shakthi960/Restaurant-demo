@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Gallery | Galaxy Restaurants{% endblock %}
+
+{% block content %}
+
+    <!-- ========== PAGE HERO ========== -->
+    <section class="page-hero" id="gallery-hero">
+      <div class="container page-hero-content">
+        <p class="page-crumb"><a href="/">Home</a> <span aria-hidden="true">·</span> Gallery</p>
+        <p class="eyebrow eyebrow-light">Moments</p>
+        <h1 class="section-title">Inside Galaxy</h1>
+        <p class="section-subtitle">Warm lamplight, brass and jali screens, and the quiet craft of the kitchen — a glimpse of the Galaxy table.</p>
+      </div>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== GALLERY ========== -->
+    <section class="section gallery-section gallery-page-section" id="gallery">
+      <div class="container">
+
+        <div class="gallery-grid">
+          {% for img in gallery_images %}
+          <figure class="gallery-item reveal {% if img.span_class %}{{ img.span_class }}{% endif %}">
+            <img src="/static/{{ img.image }}" alt="{{ img.alt or img.caption }}" loading="lazy">
+            <figcaption class="gallery-caption">{{ img.caption }}</figcaption>
+          </figure>
+          {% endfor %}
+        </div>
+
+        <div class="menu-callout reveal">
+          <p>These moments are best experienced in person. Let us host you.</p>
+          <a href="/reservations" class="btn btn-primary">Book a Table</a>
+        </div>
+
+      </div>
+    </section>
+
+{% endblock %}

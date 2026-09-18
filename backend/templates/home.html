@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="home" aria-label="Welcome to Galaxy Restaurants">
+      <div class="hero-bg">
+        <img src="/static/assets/images/hero-restaurant.jpg" alt="Galaxy Restaurants dinner hall with warm traditional lighting" class="hero-img">
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="container hero-content">
+        <p class="hero-eyebrow animate-hero delay-1">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          Traditional Flavours · Modern Hospitality
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+        </p>
+
+        <h1 class="hero-title animate-hero delay-2">
+          Galaxy<br>
+          <span class="hero-title-italic">Restaurants</span>
+        </h1>
+
+        <p class="hero-subtitle animate-hero delay-3">
+          A celebration of India's timeless flavours, crafted for today's table.
+        </p>
+
+        <div class="hero-actions animate-hero delay-4">
+          <a href="/menu" class="btn btn-primary btn-lg">Explore Our Menu</a>
+          <a href="/locations" class="btn btn-outline-light btn-lg">Find a Location</a>
+        </div>
+      </div>
+
+      <div class="hero-ornament" aria-hidden="true">
+        <img src="/static/assets/patterns/ornament.svg" alt="" class="hero-ornament-img">
+      </div>
+
+      <a href="#story" class="scroll-indicator" aria-label="Scroll to our story">
+        <span class="scroll-line"></span>
+        <span class="scroll-text">Scroll</span>
+      </a>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== OUR STORY ========== -->
+    <section class="section story-section" id="story">
+      <div class="container story-grid">
+        <div class="story-media reveal">
+          <figure class="story-figure">
+            <img src="/static/assets/images/building.jpg" alt="A Galaxy Restaurants outlet with elegant traditional architecture" class="story-img">
+            <figcaption class="story-figure-caption">
+              <span class="story-estamp">Est. Modern India</span>
+            </figcaption>
+          </figure>
+          <div class="story-accent-frame" aria-hidden="true"></div>
+        </div>
+
+        <div class="story-copy reveal">
+          <p class="eyebrow">Our Story</p>
+          <h2 class="section-title">A Culinary Journey<br>Across India</h2>
+          <div class="ornament-inline" aria-hidden="true">
+            <img src="/static/assets/patterns/diamond-divider.svg" alt="">
+          </div>
+          <p class="story-paragraph">
+            Galaxy Restaurants brings together the diverse flavours of India under one roof. Inspired by generations of culinary tradition, every dish is prepared with carefully selected ingredients, time-honoured techniques and a modern touch.
+          </p>
+          <p class="story-paragraph story-paragraph-secondary">
+            From regional spice blends passed down through families to plates presented with refined elegance, our kitchens honour the past while dining with the present.
+          </p>
+          <a href="/menu" class="btn btn-primary">Discover Our Story</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SIGNATURE DISHES ========== -->
+    <section class="section dishes-section" id="signature-dishes">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Taste the Regions</p>
+          <h2 class="section-title">Signature Dishes</h2>
+          <p class="section-subtitle">A Taste of Every Region</p>
+        </header>
+
+        <div class="dish-grid">
+          {% for dish in dishes %}
+          <article class="dish-card reveal">
+            <div class="dish-media">
+              <img src="/static/{{ dish.image }}" alt="{{ dish.name }} — {{ dish.description }}" loading="lazy">
+            </div>
+            <div class="dish-body">
+              <h3 class="dish-name">{{ dish.name }}</h3>
+              <p class="dish-desc">{{ dish.description }}</p>
+              <p class="dish-price">&#8377; {{ '%.0f'|format(dish.price) }}</p>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+
+        <div class="dishes-footer reveal">
+          <a href="/menu" class="btn btn-text">
+            Explore Full Menu
+            <span class="btn-text-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== LOCATIONS ========== -->
+    <section class="section locations-section" id="locations">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Six Cities · One Home</p>
+          <h2 class="section-title">Find Galaxy Near You</h2>
+          <p class="section-subtitle">Bringing India's flavours closer to you.</p>
+        </header>
+
+        <div class="locations-grid">
+          {% for loc in locations %}
+          <div class="location-card reveal">
+            <div class="location-head">
+              <span class="location-icon" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#A92722" stroke-width="1.2">
+                  <path d="M13 25C5 14 2 9 2 5.5A6.5 6.5 0 0 1 24 5.5C24 9 21 14 13 25Z"/>
+                  <circle cx="13" cy="5" r="2.4"/>
+                </svg>
+              </span>
+              <h3 class="location-city">{{ loc.city }}</h3>
+            </div>
+            <address class="location-address">{{ loc.address|safe }}</address>
+            <p class="location-hours"><strong>Open Daily</strong> · {{ loc.hours }}</p>
+            <a href="/locations" class="btn btn-link">View Location</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== HERITAGE ========== -->
+    <section class="heritage" id="heritage">
+      <div class="heritage-bg">
+        <img src="/static/assets/images/building2.jpg" alt="Spice-rich Galaxy kitchen with brass vessels and traditional cooking detail" class="heritage-img" loading="lazy">
+        <div class="heritage-overlay"></div>
+      </div>
+
+      <div class="container heritage-grid">
+        <div class="heritage-ornament reveal" aria-hidden="true">
+          <img src="/static/assets/images/decorative/ornament.png" alt="">
+        </div>
+        <div class="heritage-copy reveal">
+          <p class="eyebrow eyebrow-light">Heritage &amp; Craft</p>
+          <h2 class="section-title section-title-light">Rooted in Tradition</h2>
+          <div class="ornament-inline ornament-inline--gold" aria-hidden="true">
+            <img src="/static/assets/patterns/diamond-divider.svg" alt="">
+          </div>
+          <p class="heritage-paragraph">
+            From the spice-rich kitchens of the South to the royal tables of the North, Galaxy celebrates the stories, ingredients and traditions that make Indian cuisine extraordinary.
+          </p>
+          <div class="heritage-stats">
+            <div class="stat">
+              <span class="stat-value">{{ locations|length }}</span>
+              <span class="stat-label">Cities</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat">
+              <span class="stat-value">120+</span>
+              <span class="stat-label">Seasonal Dishes</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat">
+              <span class="stat-value">1</span>
+              <span class="stat-label">Shared Table</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== GALLERY ========== -->
+    <section class="section gallery-section" id="gallery">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Moments</p>
+          <h2 class="section-title">Inside Galaxy</h2>
+          <p class="section-subtitle">Where tradition meets the table.</p>
+        </header>
+
+        <div class="gallery-grid">
+          {% for img in gallery_images %}
+          <figure class="gallery-item reveal {% if img.span_class %}{{ img.span_class }}{% endif %}">
+            <img src="/static/{{ img.image }}" alt="{{ img.alt or img.caption }}" loading="lazy">
+            <figcaption class="gallery-caption">{{ img.caption }}</figcaption>
+          </figure>
+          {% endfor %}
+        </div>
+
+        <div class="dishes-footer reveal">
+          <a href="/gallery" class="btn btn-text">
+            View Full Gallery
+            <span class="btn-text-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== RESERVATION ========== -->
+    <section class="section reservation-section" id="reservation">
+      <div class="container reservation-container">
+        <div class="reservation-head reveal">
+          <p class="eyebrow">Reservations</p>
+          <h2 class="section-title">Your Table Awaits</h2>
+          <p class="section-subtitle">Dine. Celebrate. Create memories.</p>
+        </div>
+
+        <form class="reservation-form reveal" id="reservationForm" novalidate>
+          <div class="form-field">
+            <label for="res-name">Full Name</label>
+            <input type="text" id="res-name" name="full_name" placeholder="Your name" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="res-phone">Phone Number</label>
+            <input type="tel" id="res-phone" name="phone" placeholder="+91 90000 00000" autocomplete="tel" required>
+          </div>
+
+          <div class="form-field">
+            <label for="res-location">Select Location</label>
+            <select id="res-location" name="location" required>
+              <option value="" selected disabled>Choose a city</option>
+              {% for loc in locations %}
+              <option value="{{ loc.slug }}">{{ loc.city }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="res-date">Select Date</label>
+            <input type="date" id="res-date" name="date" required>
+          </div>
+
+          <div class="form-field">
+            <label for="res-time">Select Time</label>
+            <select id="res-time" name="time" required>
+              <option value="" selected disabled>Choose a time</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="12:30">12:30 PM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="13:30">1:30 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="19:00">7:00 PM</option>
+              <option value="19:30">7:30 PM</option>
+              <option value="20:00">8:00 PM</option>
+              <option value="20:30">8:30 PM</option>
+              <option value="21:00">9:00 PM</option>
+              <option value="21:30">9:30 PM</option>
+              <option value="22:00">10:00 PM</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="res-guests">Number of Guests</label>
+            <select id="res-guests" name="guests" required>
+              <option value="" selected disabled>Guests</option>
+              <option value="1">1 Guest</option>
+              <option value="2">2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+              <option value="5">5 Guests</option>
+              <option value="6">6 Guests</option>
+              <option value="7">7 Guests</option>
+              <option value="8">8 Guests</option>
+              <option value="9">9 Guests</option>
+              <option value="10">10 Guests</option>
+              <option value="11">11 Guests</option>
+              <option value="12">12 Guests</option>
+              <option value="13">13 Guests</option>
+              <option value="14">14 Guests</option>
+              <option value="15">15 Guests</option>
+              <option value="16">16 Guests</option>
+              <option value="17">17 Guests</option>
+              <option value="18">18 Guests</option>
+              <option value="19">19 Guests</option>
+              <option value="20">20+ Guests</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Reserve a Table</button>
+            <p class="form-hint" id="formStatus" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== FINAL CTA ========== -->
+    <section class="final-cta" id="cta">
+      <div class="final-cta-bg">
+        <img src="/static/assets/images/hero-restaurant.jpg" alt="" class="final-cta-img" loading="lazy" aria-hidden="true">
+        <div class="final-cta-overlay"></div>
+      </div>
+
+      <div class="container final-cta-content">
+        <p class="eyebrow eyebrow-light reveal">The Galaxy Table</p>
+        <h2 class="final-cta-title reveal">Good Food Brings<br>People Together</h2>
+        <p class="final-cta-subtitle reveal">
+          Discover the flavours, stories and traditions of India at Galaxy Restaurants.
+        </p>
+        <div class="final-cta-actions reveal">
+          <a href="/menu" class="btn btn-primary btn-lg">Explore Menu</a>
+          <a href="/reservations" class="btn btn-outline-light btn-lg">Book a Table</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CONTACT ========== -->
+    <section class="section contact-section" id="contact">
+      <div class="container contact-grid">
+
+        <div class="contact-info reveal">
+          <p class="eyebrow">Get in Touch</p>
+          <h2 class="section-title section-title-sm">Contact Us</h2>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-label">Phone</span>
+              <a href="tel:+916383149466">+91 63831 49466</a>
+            </li>
+            <li>
+              <span class="contact-label">Email</span>
+              <a href="mailto:care@galaxyrestaurants.in">care@galaxyrestaurants.in</a>
+            </li>
+            <li>
+              <span class="contact-label">Reservations</span>
+              <a href="/reservations">Book a table online</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+{% endblock %}

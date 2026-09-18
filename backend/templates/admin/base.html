@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block admin_title %}Admin{% endblock %} | Galaxy Restaurants</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/admin.css">
+  <link rel="icon" href="/static/assets/images/logo.png">
+</head>
+<body class="admin-body">
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <a href="/admin" class="admin-logo">Galaxy <span class="admin-logo-light">Admin</span></a>
+      <nav class="admin-nav">
+        {% if admin_logged_in %}
+        <a href="/" class="admin-nav-link" target="_blank">View site ↗</a>
+        <a href="/admin/logout" class="admin-nav-link admin-nav-link--muted">Log out</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    {% if flash %}
+    <div class="admin-flash admin-flash--{{ flash_type }}">{{ flash }}</div>
+    {% endif %}
+    {% block admin_content %}{% endblock %}
+  </main>
+</body>
+</html>

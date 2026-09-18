@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Menu | Galaxy Restaurants{% endblock %}
+
+{% block content %}
+
+    <!-- ========== PAGE HERO ========== -->
+    <section class="page-hero" id="menu">
+      <div class="container page-hero-content">
+        <p class="page-crumb"><a href="/">Home</a> <span aria-hidden="true">·</span> Menu</p>
+        <p class="eyebrow eyebrow-light">Our Menu</p>
+        <h1 class="section-title">A Feast Across India</h1>
+        <p class="section-subtitle">Regional recipes, time-honoured techniques and generous plates — from fiery starters to saffron-blessed desserts.</p>
+      </div>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== MENU ========== -->
+    <section class="section menu-section">
+      <div class="container">
+
+        {% for cat in categories %}
+        <div class="menu-category reveal">
+          <div class="menu-category-head">
+            <h2 class="menu-category-title">{{ cat.label }}</h2>
+          </div>
+
+          <ul class="menu-list">
+            {% for dish in cat.dishes %}
+            <li class="menu-item">
+              <div class="menu-item-main">
+                <span class="menu-item-name">{{ dish.name }}</span>
+                <span class="menu-item-region">{{ dish.region }}</span>
+              </div>
+              <span class="menu-item-leader" aria-hidden="true"></span>
+              <span class="menu-item-price">&#8377; {{ '%.0f'|format(dish.price) }}</span>
+              <p class="menu-item-desc">{{ dish.description }}</p>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endfor %}
+
+        <div class="menu-callout reveal">
+          <p>Ask your server about today's seasonal specials — our kitchens rotate regional menus throughout the year.</p>
+          <a href="/reservations" class="btn btn-primary">Reserve a Table</a>
+        </div>
+
+      </div>
+    </section>
+
+{% endblock %}

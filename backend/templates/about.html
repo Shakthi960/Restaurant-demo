@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us | Galaxy Restaurants{% endblock %}
+
+{% block content %}
+
+    <!-- ========== PAGE HERO ========== -->
+    <section class="page-hero" id="about-hero">
+      <div class="container page-hero-content">
+        <p class="page-crumb"><a href="/">Home</a> <span aria-hidden="true">·</span> About</p>
+        <p class="eyebrow eyebrow-light">Our Story</p>
+        <h1 class="section-title">A Culinary Journey<br>Across India</h1>
+        <p class="section-subtitle">Galaxy brings together the diverse flavours of India under one roof — heritage in every recipe, elegance on every plate.</p>
+      </div>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== STORY ========== -->
+    <section class="section story-section" id="story">
+      <div class="container story-grid">
+        <div class="story-media reveal">
+          <figure class="story-figure">
+            <img src="/static/assets/images/building.jpg" alt="A Galaxy Restaurants outlet with elegant traditional architecture" class="story-img">
+            <figcaption class="story-figure-caption">
+              <span class="story-estamp">Est. Modern India</span>
+            </figcaption>
+          </figure>
+          <div class="story-accent-frame" aria-hidden="true"></div>
+        </div>
+
+        <div class="story-copy reveal">
+          <p class="eyebrow">Who We Are</p>
+          <h2 class="section-title">Galaxy Restaurants</h2>
+          <div class="ornament-inline" aria-hidden="true">
+            <img src="/static/assets/patterns/diamond-divider.svg" alt="">
+          </div>
+          <p class="story-paragraph">
+            Inspired by generations of culinary tradition, every dish at Galaxy is prepared with carefully selected ingredients, time-honoured techniques and a modern touch.
+          </p>
+          <p class="story-paragraph story-paragraph-secondary">
+            From regional spice blends passed down through families to plates presented with refined elegance, our kitchens honour the past while dining with the present.
+          </p>
+          <a href="/menu" class="btn btn-primary">Taste Our Menu</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== VALUES ========== -->
+    <section class="section values-section" id="values">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">What We Believe</p>
+          <h2 class="section-title">Three Pillars of Galaxy</h2>
+          <p class="section-subtitle">Simple promises we keep at every table.</p>
+        </header>
+
+        <div class="about-values-grid">
+          <article class="value-card reveal">
+            <span class="value-icon" aria-hidden="true">प</span>
+            <h3 class="value-title">Tradition</h3>
+            <p class="value-text">Recipes carried across generations, prepared the way they were meant to be — slow, patient and true.</p>
+          </article>
+
+          <article class="value-card reveal">
+            <span class="value-icon" aria-hidden="true">अ</span>
+            <h3 class="value-title">Hospitality</h3>
+            <p class="value-text">The warmth of an Indian home at the table — generous, unhurried and crafted around our guests.</p>
+          </article>
+
+          <article class="value-card reveal">
+            <span class="value-icon" aria-hidden="true">र</span>
+            <h3 class="value-title">Craft</h3>
+            <p class="value-text">From brass, jali and lamplight interiors to plating and service, refinement lives in every detail.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DECORATIVE DIVIDER ========== -->
+    <div class="decor-divider" aria-hidden="true">
+      <img src="/static/assets/patterns/indian-border.svg" alt="" class="decor-divider-img">
+    </div>
+
+    <!-- ========== HERITAGE ========== -->
+    <section class="heritage" id="heritage">
+      <div class="heritage-bg">
+        <img src="/static/assets/images/building2.jpg" alt="Spice-rich Galaxy kitchen with brass vessels and traditional cooking detail" class="heritage-img" loading="lazy">
+        <div class="heritage-overlay"></div>
+      </div>
+
+      <div class="container heritage-grid">
+        <div class="heritage-ornament reveal" aria-hidden="true">
+          <img src="/static/assets/images/decorative/ornament.png" alt="">
+        </div>
+        <div class="heritage-copy reveal">
+          <p class="eyebrow eyebrow-light">Heritage &amp; Craft</p>
+          <h2 class="section-title section-title-light">Rooted in Tradition</h2>
+          <div class="ornament-inline ornament-inline--gold" aria-hidden="true">
+            <img src="/static/assets/patterns/diamond-divider.svg" alt="">
+          </div>
+          <p class="heritage-paragraph">
+            From the spice-rich kitchens of the South to the royal tables of the North, Galaxy celebrates the stories, ingredients and traditions that make Indian cuisine extraordinary.
+          </p>
+          <div class="heritage-stats">
+            <div class="stat">
+              <span class="stat-value">{{ locations|length }}</span>
+              <span class="stat-label">Cities</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat">
+              <span class="stat-value">120+</span>
+              <span class="stat-label">Seasonal Dishes</span>
+            </div>
+            <div class="stat-divider" aria-hidden="true"></div>
+            <div class="stat">
+              <span class="stat-value">1</span>
+              <span class="stat-label">Shared Table</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    {% if reviews %}
+    <section class="section testimonials-section" id="testimonials">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Guest Words</p>
+          <h2 class="section-title">From Our Tables</h2>
+          <p class="section-subtitle">Kind words from guests across the country.</p>
+        </header>
+
+        <div class="testimonial-grid">
+          {% for r in reviews %}
+          <blockquote class="testimonial-card reveal">
+            <div class="testimonial-stars" aria-label="{{ r.rating }} out of 5 stars">
+              {% for _ in range(r.rating) %}<span aria-hidden="true">★</span>{% endfor %}
+            </div>
+            <p class="testimonial-quote">“{{ r.review }}”</p>
+            <footer class="testimonial-meta">
+              <span class="testimonial-author">{{ r.author }}</span>
+              {% if r.city %}<span class="testimonial-city">{{ r.city }}</span>{% endif %}
+            </footer>
+          </blockquote>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- ========== REVIEW FORM ========== -->
+    <section class="section review-section" id="review-form">
+      <div class="container review-container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Share Your Experience</p>
+          <h2 class="section-title">Had a Great Meal?</h2>
+          <p class="section-subtitle">Your words help other guests — and our kitchens — beautifully.</p>
+        </header>
+
+        <form class="review-form reveal" id="reviewForm" novalidate>
+          <div class="form-field">
+            <label for="review-name">Full Name</label>
+            <input type="text" id="review-name" name="author" placeholder="Your name" autocomplete="name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="review-city">City (optional)</label>
+            <input type="text" id="review-city" name="city" placeholder="Your city" autocomplete="address-level2">
+          </div>
+
+          <div class="form-field form-field--full">
+            <label id="rating-label">Your Rating</label>
+            <div class="star-rating" role="radiogroup" aria-labelledby="rating-label">
+              <input type="radio" id="star-1" name="rating" value="1">
+              <label for="star-1" title="1 star">★</label>
+              <input type="radio" id="star-2" name="rating" value="2">
+              <label for="star-2" title="2 stars">★</label>
+              <input type="radio" id="star-3" name="rating" value="3">
+              <label for="star-3" title="3 stars">★</label>
+              <input type="radio" id="star-4" name="rating" value="4">
+              <label for="star-4" title="4 stars">★</label>
+              <input type="radio" id="star-5" name="rating" value="5">
+              <label for="star-5" title="5 stars">★</label>
+            </div>
+          </div>
+
+          <div class="form-field form-field--full">
+            <label for="review-text">Your Review</label>
+            <textarea id="review-text" name="review" placeholder="Tell us about the food, the atmosphere, the service…" required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit Review</button>
+            <p class="form-hint" id="reviewStatus" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== CLOSING CTA ========== -->
+    <section class="section menu-callout about-cta">
+      <p>Come share the table — we'd love to host you at a Galaxy near you.</p>
+      <a href="/reservations" class="btn btn-primary">Book a Table</a>
+    </section>
+
+{% endblock %}
