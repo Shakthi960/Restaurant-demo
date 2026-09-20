@@ -848,14 +848,6 @@ body.splash-lock {
   color: var(--color-charcoal);
 }
 
-.dish-desc {
-  color: var(--color-charcoal-soft);
-  font-size: 0.93rem;
-  font-weight: 300;
-  line-height: 1.6;
-  margin-bottom: var(--sp-2);
-}
-
 .dish-price {
   font-family: var(--font-serif);
   font-size: 1.2rem;

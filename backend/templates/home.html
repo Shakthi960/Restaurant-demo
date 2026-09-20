@@ -89,11 +89,10 @@
           {% for dish in dishes %}
           <article class="dish-card reveal">
             <div class="dish-media">
-              <img src="/static/{{ dish.image }}" alt="{{ dish.name }} — {{ dish.description }}" loading="lazy">
+              <img src="/static/{{ dish.image }}" alt="{{ dish.name }}" loading="lazy">
             </div>
             <div class="dish-body">
               <h3 class="dish-name">{{ dish.name }}</h3>
-              <p class="dish-desc">{{ dish.description }}</p>
               <p class="dish-price">&#8377; {{ '%.0f'|format(dish.price) }}</p>
             </div>
           </article>
