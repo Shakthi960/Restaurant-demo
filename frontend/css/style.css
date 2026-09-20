@@ -839,6 +839,12 @@ body.splash-lock {
   padding: var(--sp-3);
 }
 
+.dish-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
 .dish-name {
   font-family: var(--font-serif);
   font-weight: 600;
@@ -846,6 +852,14 @@ body.splash-lock {
   letter-spacing: 0.02em;
   margin-bottom: 0.4rem;
   color: var(--color-charcoal);
+  min-width: 0;
+}
+
+.dish-leader {
+  flex: 1;
+  min-width: 12px;
+  border-bottom: 1px dotted rgba(37, 37, 37, 0.4);
+  transform: translateY(-4px);
 }
 
 .dish-price {
@@ -854,6 +868,8 @@ body.splash-lock {
   font-weight: 600;
   color: var(--color-primary);
   letter-spacing: 0.04em;
+  flex: none;
+  white-space: nowrap;
 }
 
 .dishes-footer {
@@ -1297,6 +1313,16 @@ body.splash-lock {
    ========================================================================== */
 .contact-section {
   background: var(--color-ivory);
+}
+
+/* Floral underlay on alternating light sections */
+.story-section,
+.locations-section,
+.reservation-section {
+  background-color: var(--color-ivory);
+  background-image: url('/static/assets/patterns/floral-bg.svg');
+  background-repeat: repeat;
+  background-size: 120px 120px;
 }
 
 .contact-grid {
