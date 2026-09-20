@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <g fill="none" stroke="#C89B3C" stroke-width="1.5" stroke-opacity="0.16">
+    <path d="M0 -24 L24 0 L0 24 L-24 0 Z"/>
+    <path d="M60 -24 L84 0 L60 24 L36 0 Z"/>
+    <path d="M120 -24 L144 0 L120 24 L96 0 Z"/>
+    <path d="M0 36 L24 60 L0 84 L-24 60 Z"/>
+    <path d="M60 36 L84 60 L60 84 L36 60 Z"/>
+    <path d="M120 36 L144 60 L120 84 L96 60 Z"/>
+    <path d="M0 96 L24 120 L0 144 L-24 120 Z"/>
+    <path d="M60 96 L84 120 L60 144 L36 120 Z"/>
+    <path d="M120 96 L144 120 L120 144 L96 120 Z"/>
+  </g>
+  <g fill="#C89B3C" fill-opacity="0.3">
+    <circle cx="0" cy="0" r="3"/>
+    <circle cx="60" cy="0" r="3"/>
+    <circle cx="120" cy="0" r="3"/>
+    <circle cx="0" cy="60" r="3"/>
+    <circle cx="60" cy="60" r="3"/>
+    <circle cx="120" cy="60" r="3"/>
+    <circle cx="0" cy="120" r="3"/>
+    <circle cx="60" cy="120" r="3"/>
+    <circle cx="120" cy="120" r="3"/>
+  </g>
+</svg>
