@@ -86,7 +86,12 @@ def create_reservation(request: Request, payload: schemas.ReservationIn):
         row["email"] = email  # only when set — older DBs may not have the column
     created = db.create_reservation(row)
     if created is None:
-        raise HTTPException(status_code=500, detail="Reservation could not be saved. Please try again.")
+        reason = db.last_error or "unknown database error"
+        hint = " Email will not be stored until the matching DB migration runs (see database/supabase/schema.sql)." if "email" in reason.lower() else ""
+        raise HTTPException(
+            status_code=500,
+            detail=f"Reservation could not be saved. Reason: {reason[:200]}.{hint}",
+        )
 
     reservation_id = str(created.get("id", ""))
 

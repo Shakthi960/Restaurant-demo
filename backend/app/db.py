@@ -21,6 +21,10 @@ CACHE_TTL = 300
 
 _client = None
 
+# Last write error as a string ("" when none). Lets routes show the real
+# reason behind an otherwise generic 500, which helps debug on a demo.
+last_error: str = ""
+
 
 def _ttl_cache(ttl: float = CACHE_TTL):
     """Memoize a zero-arg-or-keyword-callable for `ttl` seconds, thread-safe."""
@@ -137,13 +141,21 @@ def get_location_id(slug: str) -> Optional[str]:
 # ---------------------------------------------------------------------------
 
 def create_reservation(row: dict) -> Optional[dict]:
+    global last_error
     try:
         result = _table("reservations").insert(row).execute()
         data = result.data or []
+        last_error = ""
+        return data[0] if data else None
     except Exception as exc:
+        last_error = str(exc)
         logger.warning("create_reservation failed: %s", exc)
+        # Older databases may not have the email column yet. Retry without it
+        # so the booking still goes through and can be linked by phone.
+        if row.get("email") and "email" in last_error.lower():
+            logger.warning("Retrying reservation insert without email (column may be missing).")
+            return create_reservation({k: v for k, v in row.items() if k != "email"})
         return None
-    return data[0] if data else None
 
 
 def create_review(row: dict) -> Optional[dict]:
