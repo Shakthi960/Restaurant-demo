@@ -1316,9 +1316,8 @@ body.splash-lock {
 }
 
 /* Floral underlay on alternating light sections */
-.story-section,
 .locations-section,
-.reservation-section {
+.contact-section {
   background-color: var(--color-ivory);
   background-image: url('/static/assets/patterns/floral-bg.svg');
   background-repeat: repeat;
