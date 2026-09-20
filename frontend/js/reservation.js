@@ -15,6 +15,7 @@
 
   const nameEl = document.getElementById('res-name');
   const phoneEl = document.getElementById('res-phone');
+  const emailEl = document.getElementById('res-email');
   const locationEl = document.getElementById('res-location');
   const dateEl = document.getElementById('res-date');
   const timeEl = document.getElementById('res-time');
@@ -22,14 +23,43 @@
 
   const fields = [nameEl, phoneEl, locationEl, dateEl, timeEl, guestsEl];
 
-  /* Indian mobile number — +91 / 0 prefix optional */
-  const phonePattern = /^(\+91[\s-]?|0)?[6-9]\d{9}$/;
+  /* Indian mobile number — 10 digits, first digit 6-9 (input stores it without +91) */
+  const phonePattern = /^[6-9]\d{9}$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  /* Keep the phone field to the last 10 digits only */
+  function normalizeDigits(raw) {
+    const digits = (raw || '').replace(/\D/g, '');
+    return digits.length > 10 ? digits.slice(-10) : digits;
+  }
+
+  phoneEl.addEventListener('input', function () {
+    phoneEl.value = normalizeDigits(phoneEl.value);
+    phoneEl.closest('.form-field').classList.remove('has-error');
+  });
+
+  /* Date: no typing — pick from the calendar only */
+  dateEl.addEventListener('keydown', function (e) {
+    if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+    }
+  });
+  dateEl.addEventListener('paste', function (e) {
+    e.preventDefault();
+  });
 
   /* ---------- Validate a single field ---------- */
   function validateField(field) {
     const wrapper = field.closest('.form-field');
     let valid = true;
-    const value = (field.value || '').trim();
+    let value = (field.value || '').trim();
+
+    if (field === emailEl) {
+      if (!value) return true; /* optional */
+      valid = emailPattern.test(value);
+      wrapper.classList.toggle('has-error', !valid);
+      return valid;
+    }
 
     if (!value) {
       valid = false;
@@ -43,7 +73,7 @@
       if (selected < today) valid = false;
     }
 
-    if (field === phoneEl && value && !phonePattern.test(value.replace(/\s+/g, ''))) {
+    if (field === phoneEl && value && !phonePattern.test(value)) {
       valid = false;
     }
 
@@ -115,14 +145,17 @@
     }
 
     /* 2. Build payload for POST /api/reservations */
+    const digits = normalizeDigits(phoneEl.value);
     const payload = {
       name: nameEl.value.trim(),
-      phone: phoneEl.value.trim(),
+      phone: '+91 ' + digits,
       location: locationEl.value,
       date: dateEl.value,
       time: timeEl.value,
       guests: Number(guestsEl.value)
     };
+    const emailValue = (emailEl.value || '').trim();
+    if (emailValue) payload.email = emailValue;
 
     /* 3. Submit to the FastAPI backend */
     form.classList.add('is-submitting');
@@ -139,7 +172,7 @@
       if (!response.ok) {
         throw new Error(result.detail || 'Something went wrong. Please try again.');
       }
-      setStatus(result.message || 'Thank you! Your table request has been received.', 'success');
+      setStatus(result.message || 'Your request has been received. You will get a WhatsApp or email confirmation once the restaurant approves your booking.', 'success');
       form.reset();
     } catch (err) {
       setStatus(err.message || 'Could not reach the server. Please try again later.', 'error');

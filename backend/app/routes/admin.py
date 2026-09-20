@@ -6,7 +6,7 @@ from datetime import date, timedelta
 from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from app import auth, db, whatsapp
+from app import auth, db, emailer, whatsapp
 from app.templating import templates
 
 router = APIRouter(prefix="/admin")
@@ -124,6 +124,16 @@ def admin_confirm_reservation(reservation_id: str, request: Request, csrf_token:
                 time=str(res.get("reservation_time", ""))[:5],
                 ref=str(res.get("id", ""))[:8],
             )
+            to_email = (res.get("email") or "").strip()
+            if to_email:
+                emailer.send_confirmed(
+                    name=res.get("name", ""),
+                    to_email=to_email,
+                    city=res.get("city", "—"),
+                    date=str(res.get("reservation_date", ""))[:10],
+                    time=str(res.get("reservation_time", ""))[:5],
+                    ref=str(res.get("id", ""))[:8],
+                )
     msg = "Reservation confirmed." if ok else "Failed to confirm reservation."
     tp = "success" if ok else "error"
     return RedirectResponse(_flash_url("/admin", msg, tp), status_code=303)

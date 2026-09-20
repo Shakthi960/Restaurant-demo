@@ -74,6 +74,7 @@ create table if not exists public.reservations (
     id               uuid primary key default gen_random_uuid(),
     name             text not null,
     phone            text not null,
+    email            text not null default '',
     location_id      uuid references public.locations (id) on delete set null,
     reservation_date date not null,
     reservation_time time not null,
@@ -91,6 +92,7 @@ create table if not exists public.reservation_history (
     id               uuid primary key,
     name             text not null,
     phone            text not null,
+    email            text not null default '',
     location_id      uuid references public.locations (id) on delete set null,
     reservation_date date not null,
     reservation_time time not null,
@@ -112,9 +114,9 @@ declare
     moved_count integer;
 begin
     insert into public.reservation_history
-        (id, name, phone, location_id, reservation_date, reservation_time,
+        (id, name, phone, email, location_id, reservation_date, reservation_time,
          guests, status, archived_on, created_at)
-    select id, name, phone, location_id, reservation_date, reservation_time,
+    select id, name, phone, email, location_id, reservation_date, reservation_time,
            guests, status, current_date, created_at
     from public.reservations
     where reservation_date < current_date

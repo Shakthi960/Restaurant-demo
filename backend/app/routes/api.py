@@ -8,7 +8,7 @@ from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, Request
 
-from app import db, schemas, whatsapp
+from app import db, schemas
 from app.limiter import limiter
 
 router = APIRouter(prefix="/api")
@@ -53,6 +53,7 @@ def create_reservation(request: Request, payload: schemas.ReservationIn):
     row = {
         "name": payload.name,
         "phone": payload.phone,
+        "email": (payload.email or "").strip(),
         "location_id": location_id,
         "reservation_date": payload.date.isoformat(),
         "reservation_time": payload.time.strftime("%H:%M"),
@@ -64,15 +65,6 @@ def create_reservation(request: Request, payload: schemas.ReservationIn):
         raise HTTPException(status_code=500, detail="Reservation could not be saved. Please try again.")
 
     reservation_id = str(created.get("id", ""))
-    whatsapp.send_received(
-        name=payload.name,
-        phone=payload.phone,
-        city=payload.location,
-        date=payload.date.isoformat(),
-        time=payload.time.strftime("%H:%M"),
-        guests=payload.guests,
-        ref=reservation_id[:8],
-    )
 
     return schemas.ReservationOut(id=reservation_id, status="pending")
 

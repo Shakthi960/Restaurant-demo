@@ -35,8 +35,17 @@
           </div>
 
           <div class="form-field">
-            <label for="res-phone">Phone Number</label>
-            <input type="tel" id="res-phone" name="phone" placeholder="+91 90000 00000" autocomplete="tel" required>
+            <label for="res-phone">Mobile Number</label>
+            <div class="phone-input">
+              <span class="phone-prefix" aria-hidden="true">+91</span>
+              <input type="tel" id="res-phone" name="phone" placeholder="90000 00000" autocomplete="tel" inputmode="numeric" maxlength="10" required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="res-email">Email <span class="field-optional">(optional)</span></label>
+            <input type="email" id="res-email" name="email" placeholder="you@example.com" autocomplete="email">
+            <p class="field-note">We'll send your confirmation here if you prefer email over WhatsApp.</p>
           </div>
 
           <div class="form-field">
@@ -104,6 +113,8 @@
             <button type="submit" class="btn btn-primary btn-lg btn-block">Reserve a Table</button>
             <p class="form-hint" id="formStatus" role="status" aria-live="polite"></p>
           </div>
+
+          <p class="reservation-note">Your request goes to the restaurant for approval. Once approved, you will receive a confirmation on WhatsApp or by email.</p>
         </form>
 
         <div class="reservation-contact-row reveal">

@@ -2,6 +2,7 @@
 
 import re
 from datetime import date, time
+from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
@@ -12,6 +13,7 @@ PHONE_PATTERN = r"^(\+91[\s-]?|0)?[6-9]\d{9}$"
 class ReservationIn(BaseModel):
     name: str = Field(..., min_length=2, max_length=80)
     phone: str = Field(..., min_length=10, max_length=20)
+    email: Optional[EmailStr] = Field(None, max_length=120)
     location: str = Field(..., min_length=2, max_length=40)  # location slug, e.g. "chennai"
     date: date
     time: time
@@ -36,7 +38,7 @@ class ReservationIn(BaseModel):
 class ReservationOut(BaseModel):
     id: str
     status: str = "pending"
-    message: str = "Thank you! Your table request has been received."
+    message: str = "Your request has been received. You will get a WhatsApp or email confirmation once the restaurant approves your booking."
 
 
 class ReviewIn(BaseModel):

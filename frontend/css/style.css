@@ -1200,6 +1200,67 @@ body.splash-lock {
   display: block;
 }
 
+/* Phone input with fixed +91 prefix */
+.form-field .phone-input {
+  display: flex;
+  align-items: stretch;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.form-field .phone-prefix {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.85rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+  background: var(--color-ivory-deep);
+  border: 1px solid rgba(37, 37, 37, 0.18);
+  border-right: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.form-field .phone-input input {
+  border-left: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.form-field .phone-input:focus-within {
+  box-shadow: 0 0 0 3px rgba(169, 39, 34, 0.12);
+}
+
+.form-field .phone-input:focus-within input {
+  border-color: var(--color-primary);
+}
+
+/* Small helper notes under fields */
+.field-optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--color-charcoal-soft);
+}
+
+.field-note {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--color-charcoal-soft);
+  margin-top: -0.2rem;
+}
+
+.reservation-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--color-charcoal-soft);
+  text-align: center;
+  padding: var(--sp-1) var(--sp-3) 0;
+  border-top: 1px dashed rgba(200, 155, 60, 0.35);
+}
+
 .form-actions {
   grid-column: 1 / -1;
   display: flex;
