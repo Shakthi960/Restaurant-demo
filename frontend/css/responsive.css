@@ -33,6 +33,14 @@
     display: flex;
   }
 
+  /* backdrop-filter makes the header the containing block for the fixed
+     drawer, clipping it to the header height. Disable at mobile widths so
+     the drawer is positioned against the viewport. */
+  .site-header {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
   .main-nav {
     position: fixed;
     top: 0;
