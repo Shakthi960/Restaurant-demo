@@ -10,6 +10,15 @@
 create extension if not exists "pgcrypto";
 
 -- -----------------------------------------------------------------------------
+-- Upgrade / migration for existing projects
+--   Safe to run at any time: no-ops when the columns already exist.
+-- -----------------------------------------------------------------------------
+alter table public.reservations
+    add column if not exists email text not null default '';
+alter table public.reservation_history
+    add column if not exists email text not null default '';
+
+-- -----------------------------------------------------------------------------
 -- Menu / dishes
 -- -----------------------------------------------------------------------------
 create table if not exists public.dishes (

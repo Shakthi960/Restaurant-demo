@@ -102,6 +102,7 @@
               <th>Submitted</th>
               <th>Name</th>
               <th>Phone</th>
+              <th>Email</th>
               <th>City</th>
               <th>Date</th>
               <th>Time</th>
@@ -116,6 +117,7 @@
               <td class="admin-cell-muted">{{ r.created_at[:10] }}</td>
               <td><strong>{{ r.name }}</strong></td>
               <td><a href="tel:{{ r.phone }}">{{ r.phone }}</a></td>
+              <td class="admin-cell-muted">{% if r.email %}<a href="mailto:{{ r.email }}">{{ r.email }}</a>{% else %}—{% endif %}</td>
               <td>{{ r.city }}</td>
               <td>{{ r.reservation_date }}</td>
               <td>{{ r.reservation_time }}</td>
@@ -162,6 +164,7 @@
               <th>Archived</th>
               <th>Name</th>
               <th>Phone</th>
+              <th>Email</th>
               <th>City</th>
               <th>Date</th>
               <th>Time</th>
@@ -175,6 +178,7 @@
               <td class="admin-cell-muted">{{ h.archived_on }}</td>
               <td><strong>{{ h.name }}</strong></td>
               <td><a href="tel:{{ h.phone }}">{{ h.phone }}</a></td>
+              <td class="admin-cell-muted">{% if h.email %}<a href="mailto:{{ h.email }}">{{ h.email }}</a>{% else %}—{% endif %}</td>
               <td>{{ h.city }}</td>
               <td>{{ h.reservation_date }}</td>
               <td>{{ h.reservation_time }}</td>
