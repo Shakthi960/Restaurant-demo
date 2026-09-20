@@ -57,6 +57,20 @@ html, body { margin: 0; padding: 0; background: var(--a-bg); font-family: var(--
 .admin-stat-value { font-size: 1.65rem; font-weight: 700; color: var(--a-primary); }
 .admin-stat-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--a-muted); }
 
+/* ---------- Tabs ---------- */
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; background: var(--a-surface); border: 1px solid var(--a-border); padding: 0.4rem; position: sticky; top: 48px; z-index: 50; }
+.admin-tab { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1rem; border: 1px solid transparent; border-radius: var(--a-radius); background: transparent; font-family: var(--a-font); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; color: var(--a-muted); cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.admin-tab:hover { color: var(--a-text); background: #f4f5f7; }
+.admin-tab:focus-visible { outline: 2px solid var(--a-primary); outline-offset: 2px; }
+.admin-tab.is-active { background: var(--a-primary); color: #fff; }
+.admin-tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; background: #eef0f3; color: var(--a-text); font-size: 0.68rem; font-weight: 700; }
+.admin-tab.is-active .admin-tab-count { background: rgba(255,255,255,0.25); color: #fff; }
+.admin-tab-count--accent { background: var(--a-warning-bg); color: var(--a-warning); border: 1px solid #fde68a; }
+.admin-tab.is-active .admin-tab-count--accent { background: rgba(255,255,255,0.25); color: #fff; border-color: transparent; }
+.admin-tab-panel { display: none; }
+.admin-tab-panel.is-active { display: block; }
+.admin-tab-panel[hidden] { display: none; }
+
 /* ---------- Charts ---------- */
 .admin-charts { padding-bottom: 1.5rem; }
 .admin-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; }
