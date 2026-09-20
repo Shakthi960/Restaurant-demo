@@ -101,16 +101,74 @@
     });
   });
 
-  /* ---------- Set min date to today ---------- */
+  /* ---------- India clock helpers (independent of the visitor's timezone) ---------- */
+  const IST_TZ = 'Asia/Kolkata';
+
+  function istParts() {
+    const out = {};
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: IST_TZ,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23'
+    }).formatToParts(new Date()).forEach(function (p) {
+      if (p.type !== 'literal') out[p.type] = p.value;
+    });
+    return out;
+  }
+
+  function istTodayISO() {
+    const p = istParts();
+    return p.year + '-' + p.month + '-' + p.day;
+  }
+
+  function toMinutes(hhmm) {
+    const parts = hhmm.split(':');
+    return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+  }
+
+  /* ---------- Set min date to today (per India time) ---------- */
   function setMinDate() {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    if (dateEl) dateEl.min = yyyy + '-' + mm + '-' + dd;
+    if (dateEl) dateEl.min = istTodayISO();
   }
 
   setMinDate();
+
+  /* ---------- Time slots: on "today", hide slots already passed in India ---------- */
+  function applyTimeFilter() {
+    if (!dateEl.value) return true;
+
+    const now = istParts();
+    const nowMin = toMinutes(now.hour + ':' + now.minute);
+    const isToday = dateEl.value === istTodayISO();
+
+    let anyEnabled = false;
+    Array.from(timeEl.options).forEach(function (opt) {
+      if (!opt.value) {
+        opt.disabled = true; /* the "Choose a time" placeholder stays disabled */
+        return;
+      }
+      if (isToday && toMinutes(opt.value) <= nowMin) {
+        opt.disabled = true;
+        if (timeEl.value === opt.value) timeEl.value = '';
+      } else {
+        opt.disabled = false;
+        anyEnabled = true;
+      }
+    });
+    return anyEnabled;
+  }
+
+  dateEl.addEventListener('change', function () {
+    const hasSlots = applyTimeFilter();
+    if (dateEl.value && dateEl.value === istTodayISO() && !hasSlots) {
+      setStatus('No time slots are left for today. Please choose another day.', 'error');
+      timeEl.closest('.form-field').classList.add('has-error');
+    }
+  });
 
   /* ---------- Status helpers ---------- */
   function setStatus(message, type) {
@@ -129,6 +187,15 @@
   /* ---------- Submit handler ---------- */
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
+
+    /* 0. No time slots left for today (per India time)? */
+    const hasSlots = applyTimeFilter();
+    if (!hasSlots) {
+      setStatus('No time slots are left for today. Please choose another day.', 'error');
+      dateEl.closest('.form-field').classList.add('has-error');
+      dateEl.focus();
+      return;
+    }
 
     /* 1. Validate all fields */
     let formValid = true;

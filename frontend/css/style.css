@@ -1177,6 +1177,11 @@ body.splash-lock {
   background-image: none;
 }
 
+.form-field select option:disabled {
+  color: rgba(37, 37, 37, 0.35);
+  font-style: italic;
+}
+
 .form-field select:focus,
 .form-field input:focus {
   border-color: var(--color-primary);

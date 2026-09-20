@@ -4,6 +4,7 @@ Auth note: supabase-py attaches the configured key to every request. When the
 service role key is set (recommended) RLS is bypassed on the server side.
 """
 
+from datetime import datetime
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, Request
@@ -12,6 +13,18 @@ from app import db, schemas
 from app.limiter import limiter
 
 router = APIRouter(prefix="/api")
+
+
+def _ist_now() -> datetime:
+    """Current time in India (Asia/Kolkata)."""
+    try:
+        from zoneinfo import ZoneInfo
+
+        return datetime.now(ZoneInfo("Asia/Kolkata"))
+    except Exception:  # pragma: no cover - defensive
+        from datetime import timedelta, timezone
+
+        return datetime.now(timezone.utc) + timedelta(minutes=330)
 
 
 def _require_db():
@@ -50,16 +63,27 @@ def create_reservation(request: Request, payload: schemas.ReservationIn):
     if location_id is None:
         raise HTTPException(status_code=400, detail="Unknown location. Choose a city from our list.")
 
+    # Reject dates/times already in the past (per India time)
+    slot = datetime(
+        payload.date.year, payload.date.month, payload.date.day,
+        payload.time.hour, payload.time.minute,
+        tzinfo=_ist_now().tzinfo,
+    )
+    if slot < _ist_now():
+        raise HTTPException(status_code=400, detail="That time slot has already passed. Please pick a later time.")
+
     row = {
         "name": payload.name,
         "phone": payload.phone,
-        "email": (payload.email or "").strip(),
         "location_id": location_id,
         "reservation_date": payload.date.isoformat(),
         "reservation_time": payload.time.strftime("%H:%M"),
         "guests": payload.guests,
         "status": "pending",
     }
+    email = (payload.email or "").strip()
+    if email:
+        row["email"] = email  # only when set — older DBs may not have the column
     created = db.create_reservation(row)
     if created is None:
         raise HTTPException(status_code=500, detail="Reservation could not be saved. Please try again.")

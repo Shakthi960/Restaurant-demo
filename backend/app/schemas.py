@@ -19,6 +19,15 @@ class ReservationIn(BaseModel):
     time: time
     guests: int = Field(..., ge=1, le=40)
 
+    @field_validator("email", mode="before")
+    @classmethod
+    def _blank_email_to_none(cls, value):
+        if value is None:
+            return None
+        if isinstance(value, str) and not value.strip():
+            return None
+        return value
+
     @field_validator("phone")
     @classmethod
     def validate_phone(cls, v: str) -> str:
