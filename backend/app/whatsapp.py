@@ -16,6 +16,7 @@ logger = logging.getLogger("app.whatsapp")
 
 API_VERSION = os.getenv("WHATSAPP_API_VERSION", "v21.0")
 BASE_URL = f"https://graph.facebook.com/{API_VERSION}"
+TEMPLATE_LANG = os.getenv("WHATSAPP_TEMPLATE_LANG", "en_US")
 
 
 def whatsapp_enabled() -> bool:
@@ -52,7 +53,7 @@ def _send(to_phone: str, template_name: str, params: list[str]) -> bool:
         "type": "template",
         "template": {
             "name": template_name,
-            "language": {"code": "en"},
+            "language": {"code": TEMPLATE_LANG},
             "components": [
                 {
                     "type": "body",
