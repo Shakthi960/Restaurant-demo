@@ -839,12 +839,6 @@ body.splash-lock {
   padding: var(--sp-3);
 }
 
-.dish-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
 .dish-name {
   font-family: var(--font-serif);
   font-weight: 600;
@@ -852,24 +846,14 @@ body.splash-lock {
   letter-spacing: 0.02em;
   margin-bottom: 0.4rem;
   color: var(--color-charcoal);
-  min-width: 0;
 }
 
-.dish-leader {
-  flex: 1;
-  min-width: 12px;
-  border-bottom: 1px dotted rgba(37, 37, 37, 0.4);
-  transform: translateY(-4px);
-}
-
-.dish-price {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  letter-spacing: 0.04em;
-  flex: none;
-  white-space: nowrap;
+.dish-desc {
+  color: var(--color-charcoal-soft);
+  font-size: 0.93rem;
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: var(--sp-2);
 }
 
 .dishes-footer {

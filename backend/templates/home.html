@@ -92,11 +92,8 @@
               <img src="/static/{{ dish.image }}" alt="{{ dish.name }}" loading="lazy">
             </div>
             <div class="dish-body">
-              <div class="dish-row">
-                <h3 class="dish-name">{{ dish.name }}</h3>
-                <span class="dish-leader" aria-hidden="true"></span>
-                <p class="dish-price">&#8377; {{ '%.0f'|format(dish.price) }}</p>
-              </div>
+              <h3 class="dish-name">{{ dish.name }}</h3>
+              <p class="dish-desc">{{ dish.description }}</p>
             </div>
           </article>
           {% endfor %}
